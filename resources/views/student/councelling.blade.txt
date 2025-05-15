@@ -1,0 +1,664 @@
+{{-- resources/views/student/counselling/index.blade.php --}}
+@extends('layouts.student')
+
+@section('title', 'Counselling Services')
+
+@section('content')
+<div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Counselling Services</li>
+                </ol>
+            </nav>
+            <div class="card bg-info text-white shadow-sm rounded-3 border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="service-icon bg-white text-info rounded-circle p-3 me-3">
+                            <i class="fas fa-comments fa-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="mb-1">Counselling Services</h2>
+                            <p class="mb-0 opacity-75">PSU Guidance Management System</p>
+                        </div>
+                        <div class="ms-auto">
+                            <a href="#book-appointment" class="btn btn-light text-info rounded-pill px-3 py-2">
+                                <i class="far fa-calendar-plus me-1"></i> Book Appointment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Overview -->
+    <div class="row mb-4">
+        <div class="col-12 mb-3">
+            <h4 class="border-start border-info border-4 ps-3">Available Services</h4>
+        </div>
+        
+        <!-- Academic Counselling -->
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="service-icon bg-info-subtle text-info rounded-circle p-3">
+                            <i class="fas fa-graduation-cap fa-lg"></i>
+                        </div>
+                        <h5 class="ms-3 mb-0">Academic Counselling</h5>
+                    </div>
+                    
+                    <p class="text-muted">Get guidance on study techniques, time management, and academic performance improvement.</p>
+                    
+                    <ul class="text-muted small ps-3">
+                        <li>Study skills development</li>
+                        <li>Course selection assistance</li>
+                        <li>Academic progress monitoring</li>
+                        <li>Learning style assessment</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-light">
+                    <a href="#" class="btn btn-info text-white w-100" data-bs-toggle="modal" data-bs-target="#academicCounsellingModal">
+                        <i class="fas fa-info-circle me-1"></i> Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Career Counselling -->
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="service-icon bg-info-subtle text-info rounded-circle p-3">
+                            <i class="fas fa-briefcase fa-lg"></i>
+                        </div>
+                        <h5 class="ms-3 mb-0">Career Counselling</h5>
+                    </div>
+                    
+                    <p class="text-muted">Explore career paths, develop professional skills, and prepare for your future career.</p>
+                    
+                    <ul class="text-muted small ps-3">
+                        <li>Career assessment tests</li>
+                        <li>Resume and interview preparation</li>
+                        <li>Internship guidance</li>
+                        <li>Professional development workshops</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-light">
+                    <a href="#" class="btn btn-info text-white w-100" data-bs-toggle="modal" data-bs-target="#careerCounsellingModal">
+                        <i class="fas fa-info-circle me-1"></i> Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Personal Counselling -->
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="service-icon bg-info-subtle text-info rounded-circle p-3">
+                            <i class="fas fa-heart fa-lg"></i>
+                        </div>
+                        <h5 class="ms-3 mb-0">Personal Counselling</h5>
+                    </div>
+                    
+                    <p class="text-muted">Confidential support for personal challenges, mental well-being, and emotional health.</p>
+                    
+                    <ul class="text-muted small ps-3">
+                        <li>Stress management techniques</li>
+                        <li>Conflict resolution skills</li>
+                        <li>Emotional support services</li>
+                        <li>Mental health resources</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-light">
+                    <a href="#" class="btn btn-info text-white w-100" data-bs-toggle="modal" data-bs-target="#personalCounsellingModal">
+                        <i class="fas fa-info-circle me-1"></i> Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- My Appointments Section -->
+    <div class="row mb-4">
+        <div class="col-12 mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="border-start border-info border-4 ps-3 mb-0">My Appointments</h4>
+                <a href="{{ route('student.counselling.history') }}" class="btn btn-outline-info">
+                    <i class="fas fa-history me-1"></i> View All History
+                </a>
+            </div>
+        </div>
+        
+        @if($appointments->count() > 0)
+            @foreach($appointments as $appointment)
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 shadow-sm hover-card">
+                        <div class="card-header bg-{{ $appointment->status == 'pending' ? 'warning' : 'success' }}">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 text-white">{{ ucfirst($appointment->service_type) }} Counselling</h5>
+                                <span class="badge bg-light text-{{ $appointment->status == 'pending' ? 'warning' : 'success' }}">
+                                    {{ ucfirst($appointment->status) }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <p class="mb-1"><strong>Counsellor:</strong> {{ $appointment->counsellor->name }}</p>
+                                <p class="mb-1">
+                                    <strong>Date & Time:</strong> 
+                                    {{ \Carbon\Carbon::parse($appointment->appointment_date)->format('M d, Y') }} at 
+                                    {{ \Carbon\Carbon::parse($appointment->appointment_time)->format('h:i A') }}
+                                </p>
+                                <p class="mb-0"><strong>Reason:</strong> {{ Str::limit($appointment->reason, 100) }}</p>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="{{ route('student.counselling.appointment.view', $appointment->id) }}" class="btn btn-info text-white">
+                                <i class="fas fa-eye me-1"></i> View Details
+                            </a>
+                            
+                            @if($appointment->status != 'completed')
+                                <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelAppointmentModal{{ $appointment->id }}">
+                                    <i class="fas fa-times-circle me-1"></i> Cancel
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cancel Appointment Modal -->
+                <div class="modal fade" id="cancelAppointmentModal{{ $appointment->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title">Cancel Appointment</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('student.counselling.cancel', $appointment->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="modal-body">
+                                    <p>Are you sure you want to cancel this appointment?</p>
+                                    <div class="mb-3">
+                                        <label for="cancellation_reason" class="form-label">Reason for Cancellation</label>
+                                        <textarea class="form-control" id="cancellation_reason" name="cancellation_reason" rows="3" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Cancel Appointment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @else
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i> You don't have any upcoming appointments. Book a session now!
+                </div>
+            </div>
+        @endif
+    </div>
+    
+    <!-- Counsellors Section -->
+    <div class="row mb-4">
+        <div class="col-12 mb-3">
+            <h4 class="border-start border-info border-4 ps-3">Our Counsellors</h4>
+        </div>
+        
+        @foreach($counsellors as $counsellor)
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 shadow-sm hover-card text-center">
+                    <div class="card-body">
+                        <div class="avatar mx-auto mb-3 rounded-circle bg-light p-2" style="width: 100px; height: 100px; overflow: hidden;">
+                            @if($counsellor->profile_photo)
+                                <img src="{{ asset('storage/'.$counsellor->profile_photo) }}" alt="{{ $counsellor->name }}" class="img-fluid rounded-circle">
+                            @else
+                                <div class="rounded-circle bg-info text-white d-flex align-items-center justify-content-center h-100">
+                                    <i class="fas fa-user-circle fa-3x"></i>
+                                </div>
+                            @endif
+                        </div>
+                        
+                        <h5 class="mb-1">{{ $counsellor->name }}</h5>
+                        <p class="text-muted small mb-2">{{ $counsellor->specialization }}</p>
+                        
+                        <div class="d-flex justify-content-center mb-3">
+                            <span class="badge bg-info-subtle text-info me-2">{{ $counsellor->expertise1 }}</span>
+                            <span class="badge bg-info-subtle text-info">{{ $counsellor->expertise2 }}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#counsellorModal{{ $counsellor->id }}">
+                            <i class="fas fa-id-card me-1"></i> View Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Counsellor Profile Modal -->
+            <div class="modal fade" id="counsellorModal{{ $counsellor->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title">Counsellor Profile</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-4 text-center mb-4 mb-md-0">
+                                    <div class="avatar mx-auto rounded-circle bg-light p-2 mb-3" style="width: 150px; height: 150px; overflow: hidden;">
+                                        @if($counsellor->profile_photo)
+                                            <img src="{{ asset('storage/'.$counsellor->profile_photo) }}" alt="{{ $counsellor->name }}" class="img-fluid rounded-circle">
+                                        @else
+                                            <div class="rounded-circle bg-info text-white d-flex align-items-center justify-content-center h-100">
+                                                <i class="fas fa-user-circle fa-5x"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    
+                                    <h4 class="mb-1">{{ $counsellor->name }}</h4>
+                                    <p class="text-muted mb-3">{{ $counsellor->specialization }}</p>
+                                    
+                                    <div class="d-flex justify-content-center mb-3 flex-wrap">
+                                        <span class="badge bg-info-subtle text-info m-1">{{ $counsellor->expertise1 }}</span>
+                                        <span class="badge bg-info-subtle text-info m-1">{{ $counsellor->expertise2 }}</span>
+                                        @if($counsellor->expertise3)
+                                            <span class="badge bg-info-subtle text-info m-1">{{ $counsellor->expertise3 }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-8">
+                                    <h6 class="border-bottom pb-2 mb-3">Professional Background</h6>
+                                    <p>{{ $counsellor->biography }}</p>
+                                    
+                                    <h6 class="border-bottom pb-2 mb-3 mt-4">Education</h6>
+                                    <ul class="list-unstyled">
+                                        @foreach(explode("\n", $counsellor->education) as $education)
+                                            @if(!empty(trim($education)))
+                                                <li class="mb-2">
+                                                    <i class="fas fa-graduation-cap text-info me-2"></i> {{ $education }}
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                    
+                                    <h6 class="border-bottom pb-2 mb-3 mt-4">Specializations</h6>
+                                    <ul class="list-unstyled">
+                                        @foreach(explode("\n", $counsellor->specializations) as $specialization)
+                                            @if(!empty(trim($specialization)))
+                                                <li class="mb-2">
+                                                    <i class="fas fa-check-circle text-info me-2"></i> {{ $specialization }}
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                    
+                                    <h6 class="border-bottom pb-2 mb-3 mt-4">Availability</h6>
+                                    <p class="mb-2">
+                                        <i class="fas fa-calendar-alt text-info me-2"></i> 
+                                        <strong>Days:</strong> {{ str_replace(',', ', ', $counsellor->available_days) }}
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="fas fa-clock text-info me-2"></i> 
+                                        <strong>Hours:</strong> {{ $counsellor->available_hours }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a href="#book-appointment" class="btn btn-info text-white" data-bs-dismiss="modal">
+                                <i class="far fa-calendar-plus me-1"></i> Book Appointment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+    
+    <!-- Appointment Booking Section -->
+    <div class="row" id="book-appointment">
+        <div class="col-12 mb-3">
+            <h4 class="border-start border-info border-4 ps-3">Book an Appointment</h4>
+        </div>
+        
+        <div class="col-md-8 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white py-3">
+                    <h5 class="mb-0">
+                        <i class="far fa-calendar-plus me-2"></i> New Appointment Request
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form action="{{ route('student.counselling.book') }}" method="POST">
+                        @csrf
+                        
+                        @if(session('success'))
+                            <div class="alert alert-success mb-4">
+                                <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+                            </div>
+                        @endif
+                        
+                        @if(session('error'))
+                            <div class="alert alert-danger mb-4">
+                                <i class="fas fa-exclamation-circle me-2"></i> {{ session('error') }}
+                            </div>
+                        @endif
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="counsellor_id" class="form-label">Select Counsellor</label>
+                                <select class="form-select @error('counsellor_id') is-invalid @enderror" id="counsellor_id" name="counsellor_id" required>
+                                    <option value="" selected disabled>Choose a counsellor</option>
+                                    @foreach($counsellors as $counsellor)
+                                        <option value="{{ $counsellor->id }}">{{ $counsellor->name }} - {{ $counsellor->specialization }}</option>
+                                    @endforeach
+                                </select>
+                                @error('counsellor_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="service_type" class="form-label">Service Type</label>
+                                <select class="form-select @error('service_type') is-invalid @enderror" id="service_type" name="service_type" required>
+                                    <option value="" selected disabled>Select service type</option>
+                                    <option value="academic">Academic Counselling</option>
+                                    <option value="career">Career Counselling</option>
+                                    <option value="personal">Personal Counselling</option>
+                                </select>
+                                @error('service_type')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="preferred_date" class="form-label">Preferred Date</label>
+                                <input type="date" class="form-control @error('preferred_date') is-invalid @enderror" id="preferred_date" name="preferred_date" required min="{{ date('Y-m-d') }}">
+                                @error('preferred_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="preferred_time" class="form-label">Preferred Time</label>
+                                <select class="form-select @error('preferred_time') is-invalid @enderror" id="preferred_time" name="preferred_time" required>
+                                    <option value="" selected disabled>Select time slot</option>
+                                    <option value="09:00:00">9:00 AM</option>
+                                    <option value="10:00:00">10:00 AM</option>
+                                    <option value="11:00:00">11:00 AM</option>
+                                    <option value="13:00:00">1:00 PM</option>
+                                    <option value="14:00:00">2:00 PM</option>
+                                    <option value="15:00:00">3:00 PM</option>
+                                    <option value="16:00:00">4:00 PM</option>
+                                </select>
+                                @error('preferred_time')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">Reason for Appointment</label>
+                            <textarea class="form-control @error('reason') is-invalid @enderror" id="reason" name="reason" rows="3" placeholder="Briefly describe your reason for seeking counselling..." required></textarea>
+                            @error('reason')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input @error('confidentiality') is-invalid @enderror" type="checkbox" id="confidentiality" name="confidentiality" required>
+                                <label class="form-check-label" for="confidentiality">
+                                    I understand that while counselling sessions are confidential, counsellors may need to break confidentiality in case of risk of harm to self or others.
+                                </label>
+                                @error('confidentiality')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-info text-white">
+                                <i class="far fa-calendar-check me-1"></i> Submit Appointment Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i> Appointment Info
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="service-icon bg-primary-subtle text-primary rounded-circle p-2 me-3">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Session Duration</h6>
+                            <p class="text-muted mb-0 small">Each session lasts approximately 60 minutes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="service-icon bg-primary-subtle text-primary rounded-circle p-2 me-3">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Available Days</h6>
+                            <p class="text-muted mb-0 small">Monday to Friday, 9:00 AM - 5:00 PM</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="service-icon bg-primary-subtle text-primary rounded-circle p-2 me-3">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Location</h6>
+                            <p class="text-muted mb-0 small">Guidance Office, Administrative Building, 2nd Floor</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center">
+                        <div class="service-icon bg-primary-subtle text-primary rounded-circle p-2 me-3">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Contact Information</h6>
+                            <p class="text-muted mb-0 small">guidance@psu.edu.ph | (045) 123-4567</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Service Modals -->
+<div class="modal fade" id="academicCounsellingModal" tabindex="-1" aria-labelledby="academicCounsellingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="academicCounsellingModalLabel">Academic Counselling</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="border-bottom pb-2 mb-3">How Academic Counselling Can Help You</h6>
+                <p>Academic counselling provides support for students facing challenges in their academic journey. Our counsellors can help with:</p>
+                <ul>
+                    <li><strong>Study Skills Development:</strong> Learn effective note-taking, reading comprehension, and exam preparation techniques.</li>
+                    <li><strong>Time Management:</strong> Develop strategies to balance coursework, extracurricular activities, and personal life.</li>
+                    <li><strong>Academic Goal Setting:</strong> Identify clear, achievable academic goals and create actionable plans to reach them.</li>
+                    <li><strong>Learning Style Assessment:</strong> Discover your unique learning style and adapt your study approach accordingly.</li>
+                    <li><strong>Course Selection Guidance:</strong> Get advice on choosing courses that align with your career goals and interests.</li>
+                    <li><strong>Academic Probation Support:</strong> Receive specialized support if you're on academic probation.</li>
+                </ul>
+                
+                <h6 class="border-bottom pb-2 mb-3 mt-4">What to Expect in an Academic Counselling Session</h6>
+                <p>During your academic counselling session, the counsellor will:</p>
+                <ol>
+                    <li>Assess your current academic situation and challenges</li>
+                    <li>Help identify obstacles to your academic success</li>
+                    <li>Develop personalized strategies to overcome these obstacles</li>
+                    <li>Connect you with additional academic resources if needed</li>
+                    <li>Create a follow-up plan to track your progress</li>
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#book-appointment" class="btn btn-info text-white" data-bs-dismiss="modal">Book Appointment</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="careerCounsellingModal" tabindex="-1" aria-labelledby="careerCounsellingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="careerCounsellingModalLabel">Career Counselling</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="border-bottom pb-2 mb-3">How Career Counselling Can Help You</h6>
+                <p>Career counselling helps students explore potential career paths and develop professional skills. Our career counsellors can assist with:</p>
+                <ul>
+                    <li><strong>Career Assessment:</strong> Take assessments to discover careers that match your interests, values, and skills.</li>
+                    <li><strong>Job Market Information:</strong> Learn about current job market trends and future outlook for different fields.</li>
+                    <li><strong>Resume Building:</strong> Create or improve your resume to highlight your relevant skills and experiences.</li>
+                    <li><strong>Interview Preparation:</strong> Practice interview techniques and receive feedback to improve your performance.</li>
+                    <li><strong>Internship Guidance:</strong> Get assistance finding and applying for internships related to your field of study.</li>
+                    <li><strong>Networking Skills:</strong> Develop strategies for building professional connections in your desired industry.</li>
+                </ul>
+                
+                <h6 class="border-bottom pb-2 mb-3 mt-4">What to Expect in a Career Counselling Session</h6>
+                <p>During your career counselling session, the counsellor will:</p>
+                <ol>
+                    <li>Discuss your career interests, goals, and concerns</li>
+                    <li>Help you explore potential career paths based on your academic background</li>
+                    <li>Provide resources for further career research</li>
+                    <li>Assist with job search strategies and application materials</li>
+                    <li>Develop a career action plan with short and long-term goals</li>
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#book-appointment" class="btn btn-info text-white" data-bs-dismiss="modal">Book Appointment</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="personalCounsellingModal" tabindex="-1" aria-labelledby="personalCounsellingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="personalCounsellingModalLabel">Personal Counselling</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="border-bottom pb-2 mb-3">How Personal Counselling Can Help You</h6>
+                <p>Personal counselling provides confidential support for students dealing with personal challenges, mental health concerns, and emotional difficulties. Our counsellors can help with:</p>
+                <ul>
+                    <li><strong>Stress Management:</strong> Learn techniques to cope with academic and personal stress.</li>
+                    <li><strong>Emotional Support:</strong> Get support for dealing with anxiety, depression, or other emotional concerns.</li>
+                    <li><strong>Relationship Issues:</strong> Navigate challenges in personal and family relationships.</li>
+                    <li><strong>Adjustment Difficulties:</strong> Receive help adjusting to university life or other major life transitions.</li>
+                    <li><strong>Crisis Intervention:</strong> Get immediate support during personal crises or emergencies.</li>
+                    <li><strong>Self-Esteem Building:</strong> Develop a healthier self-image and greater self-confidence.</li>
+                    <li><strong>Grief and Loss Support:</strong> Process feelings related to loss and grief.</li>
+                </ul>
+                
+                <h6 class="border-bottom pb-2 mb-3 mt-4">What to Expect in a Personal Counselling Session</h6>
+                <p>During your personal counselling session, the counsellor will:</p>
+                <ol>
+                    <li>Create a safe, confidential space for you to express your concerns</li>
+                    <li>Listen without judgment to understand your situation</li>
+                    <li>Help you explore and process your emotions</li>
+                    <li>Assist in developing coping strategies and problem-solving skills</li>
+                    <li>Provide referrals to specialized services if needed</li>
+                </ol>
+                
+                <div class="alert alert-info bg-info-subtle border-info mt-4">
+                    <div class="d-flex">
+                        <div class="me-2">
+                            <i class="fas fa-lock text-info fa-lg"></i>
+                        </div>
+                        <div>
+                            <p class="mb-0"><strong>Confidentiality Notice:</strong> Personal counselling sessions are confidential. However, confidentiality may be broken if there is a risk of harm to yourself or others, or in cases required by law.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#book-appointment" class="btn btn-info text-white" data-bs-dismiss="modal">Book Appointment</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('styles')
+<style>
+.service-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.bg-info-subtle {
+    background-color: rgba(13, 202, 240, 0.1);
+}
+
+.bg-primary-subtle {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.bg-success-subtle {
+    background-color: rgba(25, 135, 84, 0.1);
+}
+
+.bg-warning-subtle {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.bg-danger-subtle {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.border-info {
+    border-color: #0dcaf0 !important;
+}
+</style>
+@endpush
+@endsection

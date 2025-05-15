@@ -1,0 +1,1036 @@
+<!-- resources/views/admin/announcements.blade.php -->
+{{-- part of admin Dashboard --}}
+@extends('layouts.admin')
+
+@section('title', 'Announcements')
+
+@section('page_title')
+    <h4 class="mb-0"><i class="fas fa-bullhorn me-2"></i>Announcement Management</h4>
+@endsection
+
+@section('content')
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Announcement Categories</h5>
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action active d-flex justify-content-between align-items-center">
+                            General Announcements
+                            <span class="badge bg-light text-primary rounded-pill">14</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Academic Announcements
+                            <span class="badge bg-light text-primary rounded-pill">9</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Events & Activities
+                            <span class="badge bg-light text-primary rounded-pill">21</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Career Opportunities
+                            <span class="badge bg-light text-primary rounded-pill">6</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Campus Services
+                            <span class="badge bg-light text-primary rounded-pill">8</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Emergency Alerts
+                            <span class="badge bg-light text-primary rounded-pill">3</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" placeholder="Search categories...">
+                        <button class="btn btn-sm btn-outline-secondary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">General Announcements</h5>
+                    <div>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addAnnouncementModal">
+                            <i class="fas fa-plus me-1"></i> Create Announcement
+                        </button>
+                        <div class="btn-group ms-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fas fa-sort me-1"></i> Sort
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Newest First</a></li>
+                                <li><a class="dropdown-item" href="#">Oldest First</a></li>
+                                <li><a class="dropdown-item" href="#">Most Viewed</a></li>
+                                <li><a class="dropdown-item" href="#">Alphabetical</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Target Audience</th>
+                                    <th>Publish Date</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Campus Wi-Fi Upgrade Schedule</td>
+                                    <td><span class="badge bg-info">All Students</span></td>
+                                    <td>2025-04-10</td>
+                                    <td>2025-04-25</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="btn btn-outline-secondary"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Library Hours Extended for Finals</td>
+                                    <td><span class="badge bg-info">All Students</span></td>
+                                    <td>2025-04-08</td>
+                                    <td>2025-05-15</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="btn btn-outline-secondary"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>New Student Portal Features</td>
+                                    <td><span class="badge bg-info">All Students</span></td>
+                                    <td>2025-04-15</td>
+                                    <td>2025-05-01</td>
+                                    <td><span class="badge bg-warning">Scheduled</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="btn btn-outline-secondary"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Campus Shuttle Schedule Update</td>
+                                    <td><span class="badge bg-info">All Students</span></td>
+                                    <td>2025-04-02</td>
+                                    <td>2025-04-20</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="btn btn-outline-secondary"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Student ID Card Renewal Process</td>
+                                    <td><span class="badge bg-primary">Graduating Students</span></td>
+                                    <td>2025-03-25</td>
+                                    <td>2025-04-10</td>
+                                    <td><span class="badge bg-secondary">Expired</span></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            {{-- <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a> --}}
+                                            <a href="#" class="btn btn-outline-primary preview-btn"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="btn btn-outline-secondary"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="mt-3">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Announcement Analytics</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="announcementAnalyticsChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Scheduled Announcements</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Next 7 Days
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Next 7 Days</a></li>
+                            <li><a class="dropdown-item" href="#">Next 30 Days</a></li>
+                            <li><a class="dropdown-item" href="#">All Scheduled</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">New Student Portal Features</h6>
+                                <small class="text-success">April 15, 2025</small>
+                            </div>
+                            <p class="mb-1">Announcing the release of new student portal features including mobile app integration.</p>
+                            <small class="text-muted">Target: All Students</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Summer Registration Opens</h6>
+                                <small class="text-success">April 18, 2025</small>
+                            </div>
+                            <p class="mb-1">Summer course registration will open for all students at 8:00 AM.</p>
+                            <small class="text-muted">Target: All Students</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Dining Hall Schedule Change</h6>
+                                <small class="text-success">April 20, 2025</small>
+                            </div>
+                            <p class="mb-1">Updated hours for all campus dining facilities during finals week.</p>
+                            <small class="text-muted">Target: On-Campus Students</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Graduation Ceremony Details</h6>
+                                <small class="text-success">April 22, 2025</small>
+                            </div>
+                            <p class="mb-1">Important information about the Spring 2025 graduation ceremony.</p>
+                            <small class="text-muted">Target: Graduating Students</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="#" class="btn btn-sm btn-outline-primary d-block">View All Scheduled</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div class="modal fade" id="addCategoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Announcement Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Category Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Icon (FontAwesome)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-icons"></i></span>
+                                <input type="text" class="form-control" value="fa-bullhorn">
+                            </div>
+                            <small class="text-muted">Example: fa-calendar, fa-bell, fa-newspaper, etc.</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Display Color</label>
+                            <input type="color" class="form-control form-control-color" value="#0d6efd">
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="activeCategory" checked>
+                            <label class="form-check-label" for="activeCategory">
+                                Active
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Add Category</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Announcement Modal -->
+    <div class="modal fade" id="addAnnouncementModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Announcement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="announcementForm">
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label">Title</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" required>
+                                    <option selected>General Announcements</option>
+                                    <option>Academic Announcements</option>
+                                    <option>Events & Activities</option>
+                                    <option>Career Opportunities</option>
+                                    <option>Campus Services</option>
+                                    <option>Emergency Alerts</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Announcement Content</label>
+                            <textarea class="form-control" rows="10" id="announcementContent"></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Target Audience</label>
+                                <select class="form-select" required>
+                                    <option selected>All Students</option>
+                                    <option>Undergraduate Students</option>
+                                    <option>Graduate Students</option>
+                                    <option>First-Year Students</option>
+                                    <option>Graduating Students</option>
+                                    <option>International Students</option>
+                                    <option>On-Campus Students</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Publish Date</label>
+                                <input type="datetime-local" class="form-control" value="2025-04-24T09:00">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Expiry Date</label>
+                                <input type="datetime-local" class="form-control" value="2025-05-08T23:59">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Attach Files (Optional)</label>
+                                <input type="file" class="form-control" multiple>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Display Options</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="featuredAnnouncement">
+                                    <label class="form-check-label" for="featuredAnnouncement">
+                                        Feature on Student Dashboard
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" id="saveDraftBtn">Save as Draft</button>
+                    <button type="button" class="btn btn-primary" id="publishBtn">Publish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Announcement Modal -->
+    <div class="modal fade" id="previewAnnouncementModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Campus Wi-Fi Upgrade Schedule</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="badge bg-info">General Announcements</span>
+                        <small class="text-muted">Posted: April 10, 2025</small>
+                    </div>
+                    <div class="announcement-content mb-4">
+                        <p>Dear Students,</p>
+                        <p>We're pleased to announce that campus-wide Wi-Fi upgrades will be taking place over the next two weeks to improve connectivity and speed across all university buildings.</p>
+                        <p>During the upgrade process, you may experience brief interruptions in wireless service in the following locations:</p>
+                        <ul>
+                            <li><strong>April 15:</strong> Main Library and Student Center (7:00 AM - 10:00 AM)</li>
+                            <li><strong>April 17:</strong> Science Building and Engineering Complex (7:00 AM - 10:00 AM)</li>
+                            <li><strong>April 20:</strong> Residence Halls A, B, and C (2:00 AM - 5:00 AM)</li>
+                            <li><strong>April 22:</strong> Residence Halls D, E, and F (2:00 AM - 5:00 AM)</li>
+                        </ul>
+                        <p>The upgraded network will provide:</p>
+                        <ul>
+                            <li>Faster connection speeds (up to 1 Gbps)</li>
+                            <li>Better coverage in previously weak signal areas</li>
+                            <li>Improved support for multiple devices</li>
+                            <li>Enhanced security features</li>
+                        </ul>
+                        <p>No changes to your device settings will be required to connect to the upgraded network.</p>
+                        <p>If you experience any connectivity issues after the upgrades are complete, please contact IT Support at support@university.edu or visit the IT Help Desk in the Student Center.</p>
+                        <p>Thank you for your patience as we improve our campus infrastructure.</p>
+                        <p>Best regards,<br>Campus IT Services</p>
+                    </div>
+                    <div class="mt-3">
+                        <strong>Attachments:</strong>
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+                            <a href="#" class="text-decoration-none">
+                                <div class="d-flex align-items-center p-2 border rounded">
+                                    <i class="fas fa-file-pdf text-danger me-2 fa-lg"></i>
+                                    <span>Upgrade_Schedule.pdf</span>
+                                </div>
+                            </a>
+                            <a href="#" class="text-decoration-none">
+                                <div class="d-flex align-items-center p-2 border rounded">
+                                    <i class="fas fa-file-image text-primary me-2 fa-lg"></i>
+                                    <span>Campus_Map.jpg</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Container for Notifications -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Announcement System</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+<script>
+$(document).ready(function() {
+    // Initialize TinyMCE if available
+    if (typeof tinymce !== 'undefined') {
+        tinymce.init({
+            selector: '#announcementContent',
+            height: 300,
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+            'bold italic backcolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat | help'
+        });
+    }
+    
+    // Reinitialize TinyMCE when modal is shown
+    $('#addAnnouncementModal').on('shown.bs.modal', function() {
+        if (typeof tinymce !== 'undefined') {
+            // Check if TinyMCE is already initialized for this textarea
+            if (!tinymce.get('announcementContent')) {
+                tinymce.init({
+                    selector: '#announcementContent',
+                    height: 300,
+                    menubar: false,
+                    plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help'
+                });
+            }
+        }
+    });
+    
+    // UNIFIED EVENT HANDLERS
+    // Handle View (Preview) button click - Using a more specific selector
+    $(document).on("click", ".preview-btn, .btn-outline-primary:not(.btn-outline-secondary):not(.btn-outline-danger)", function(e) {
+        e.preventDefault();
+        
+        // Get announcement data from the row
+        const row = $(this).closest('tr');
+        const title = row.find('td:first').text();
+        const audience = row.find('td:eq(1) .badge').text();
+        const publishDate = row.find('td:eq(2)').text();
+        
+        // Open the preview modal with data
+        $("#previewAnnouncementModal .modal-title").text(title);
+        $("#previewAnnouncementModal .badge.bg-info").text(audience);
+        $("#previewAnnouncementModal small.text-muted").text("Posted: " + publishDate);
+        
+        // Open the modal
+        const previewModal = new bootstrap.Modal(document.getElementById('previewAnnouncementModal'));
+        previewModal.show();
+    });
+    
+    // Handle Edit button click
+    $(document).on("click", ".btn-outline-secondary", function(e) {
+        e.preventDefault();
+        
+        // Get announcement data from the row
+        const row = $(this).closest('tr');
+        const title = row.find('td:first').text();
+        const audience = row.find('td:eq(1) .badge').text();
+        const publishDate = row.find('td:eq(2)').text();
+        const expiryDate = row.find('td:eq(3)').text();
+        
+        // Get the status
+        const status = row.find('td:eq(4) .badge').text();
+        
+        // Populate the form in the modal
+        $("#addAnnouncementModal .modal-title").text("Edit Announcement");
+        $("#addAnnouncementModal input[type='text']").val(title);
+        $("#addAnnouncementModal select").eq(1).val(audience);
+        
+        // Format the dates for datetime-local input
+        const formattedPublishDate = formatDateForInput(publishDate);
+        const formattedExpiryDate = formatDateForInput(expiryDate);
+        
+        $("#addAnnouncementModal input[type='datetime-local']").first().val(formattedPublishDate);
+        $("#addAnnouncementModal input[type='datetime-local']").eq(1).val(formattedExpiryDate);
+        
+        // Store the row reference for updating after edit
+        $("#addAnnouncementModal").data("editRow", row);
+        
+        // Change the buttons to reflect update functionality
+        $("#saveDraftBtn").text("Update as Draft");
+        $("#publishBtn").text("Update & Publish");
+        
+        // Open the modal
+        const editModal = new bootstrap.Modal(document.getElementById('addAnnouncementModal'));
+        editModal.show();
+    });
+    
+    // Handle Delete button click
+    $(document).on("click", ".btn-outline-danger", function(e) {
+        e.preventDefault();
+        
+        // Confirm before deleting
+        if (confirm("Are you sure you want to delete this announcement?")) {
+            // Get the row
+            const row = $(this).closest('tr');
+            
+            // Get the category to update count
+            const currentCount = parseInt($(".list-group-item.active .badge").text());
+            $(".list-group-item.active .badge").text(currentCount - 1);
+            
+            // Remove the row with animation
+            row.fadeOut(400, function() {
+                row.remove();
+                
+                // Show notification
+                showNotification("Announcement deleted successfully!", "success");
+            });
+        }
+    });
+    
+    // BUTTON HANDLERS FOR MODALS
+    // Handle Save as Draft button click
+    $("#saveDraftBtn").click(function() {
+        const editRow = $("#addAnnouncementModal").data("editRow");
+        if (editRow) {
+            updateAnnouncement(editRow, 'draft');
+        } else {
+            saveAnnouncement('draft');
+        }
+    });
+    
+    // Handle Publish button click
+    $("#publishBtn").click(function() {
+        const editRow = $("#addAnnouncementModal").data("editRow");
+        if (editRow) {
+            updateAnnouncement(editRow, 'published');
+        } else {
+            saveAnnouncement('published');
+        }
+    });
+    
+    // HELPER FUNCTIONS
+    // Function to format date for datetime-local input
+    function formatDateForInput(dateString) {
+        // Create a date object from the date string
+        const date = new Date(dateString);
+        
+        // Format date as YYYY-MM-DDThh:mm
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+    
+    // Function to save announcement
+    function saveAnnouncement(status) {
+        // Get form values
+        const title = $("#addAnnouncementModal input[type='text']").val();
+        const category = $("#addAnnouncementModal select").first().val();
+        let content = "";
+        
+        // Get content from TinyMCE if available, otherwise from textarea
+        if (typeof tinymce !== 'undefined' && tinymce.get('announcementContent')) {
+            content = tinymce.get('announcementContent').getContent();
+        } else {
+            content = $("#announcementContent").val();
+        }
+        
+        const targetAudience = $("#addAnnouncementModal select").eq(1).val();
+        const publishDate = $("#addAnnouncementModal input[type='datetime-local']").first().val();
+        const expiryDate = $("#addAnnouncementModal input[type='datetime-local']").eq(1).val();
+        const featured = $("#featuredAnnouncement").is(':checked');
+        
+        // Validate required fields
+        if (!title || !category || !content || !targetAudience || !publishDate || !expiryDate) {
+            alert("Please fill in all required fields");
+            return;
+        }
+        
+        // Format dates for display
+        const formattedPublishDate = new Date(publishDate).toISOString().split('T')[0];
+        const formattedExpiryDate = new Date(expiryDate).toISOString().split('T')[0];
+        
+        // Create status badge based on status
+        let statusBadge = '';
+        if (status === 'published') {
+            const today = new Date();
+            const publishDateTime = new Date(publishDate);
+            
+            // Check if publish date is in the future
+            if (publishDateTime > today) {
+                statusBadge = '<span class="badge bg-warning">Scheduled</span>';
+            } else {
+                statusBadge = '<span class="badge bg-success">Active</span>';
+            }
+        } else {
+            statusBadge = '<span class="badge bg-warning">Draft</span>';
+        }
+        
+        // Create audience badge
+        const audienceBadge = `<span class="badge bg-info">${targetAudience}</span>`;
+        
+        // Create new table row
+        const newRow = `
+            <tr>
+                <td>${title}</td>
+                <td>${audienceBadge}</td>
+                <td>${formattedPublishDate}</td>
+                <td>${formattedExpiryDate}</td>
+                <td>${statusBadge}</td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <a href="#" class="btn btn-outline-primary preview-btn"><i class="fas fa-eye"></i></a>
+                        <a href="#" class="btn btn-outline-secondary"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                    </div>
+                </td>
+            </tr>
+        `;
+        
+        // Add new row to the table
+        $(".table tbody").prepend(newRow);
+        
+        // Update the badge count for active category
+        const currentCount = parseInt($(".list-group-item.active .badge").text());
+        $(".list-group-item.active .badge").text(currentCount + 1);
+        
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addAnnouncementModal'));
+        modal.hide();
+        
+        // Reset form
+        $("#announcementForm")[0].reset();
+        
+        // Clear TinyMCE if it exists
+        if (typeof tinymce !== 'undefined' && tinymce.get('announcementContent')) {
+            tinymce.get('announcementContent').setContent('');
+        }
+        
+        // Show success message
+        const message = status === 'published' ? 
+            'Announcement published successfully!' : 
+            'Announcement saved as draft!';
+            
+        // Show toast notification
+        showNotification(message, status === 'published' ? 'success' : 'info');
+    }
+    
+    // Function to update an existing announcement
+    function updateAnnouncement(row, status) {
+        // Get form values (similar to saveAnnouncement)
+        const title = $("#addAnnouncementModal input[type='text']").val();
+        const category = $("#addAnnouncementModal select").first().val();
+        let content = "";
+        
+        // Get content from TinyMCE if available, otherwise from textarea
+        if (typeof tinymce !== 'undefined' && tinymce.get('announcementContent')) {
+            content = tinymce.get('announcementContent').getContent();
+        } else {
+            content = $("#announcementContent").val();
+        }
+        
+        const targetAudience = $("#addAnnouncementModal select").eq(1).val();
+        const publishDate = $("#addAnnouncementModal input[type='datetime-local']").first().val();
+        const expiryDate = $("#addAnnouncementModal input[type='datetime-local']").eq(1).val();
+        const featured = $("#featuredAnnouncement").is(':checked');
+        
+        // Validate required fields
+        if (!title || !category || !content || !targetAudience || !publishDate || !expiryDate) {
+            alert("Please fill in all required fields");
+            return;
+        }
+        
+        // Format dates for display
+        const formattedPublishDate = new Date(publishDate).toISOString().split('T')[0];
+        const formattedExpiryDate = new Date(expiryDate).toISOString().split('T')[0];
+        
+        // Create status badge based on status
+        let statusBadge = '';
+        if (status === 'published') {
+            const today = new Date();
+            const publishDateTime = new Date(publishDate);
+            
+            // Check if publish date is in the future
+            if (publishDateTime > today) {
+                statusBadge = '<span class="badge bg-warning">Scheduled</span>';
+            } else {
+                statusBadge = '<span class="badge bg-success">Active</span>';
+            }
+        } else {
+            statusBadge = '<span class="badge bg-warning">Draft</span>';
+        }
+        
+        // Create audience badge
+        const audienceBadge = `<span class="badge bg-info">${targetAudience}</span>`;
+        
+        // Update the row content
+        row.find('td:eq(0)').text(title);
+        row.find('td:eq(1)').html(audienceBadge);
+        row.find('td:eq(2)').text(formattedPublishDate);
+        row.find('td:eq(3)').text(formattedExpiryDate);
+        row.find('td:eq(4)').html(statusBadge);
+        
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addAnnouncementModal'));
+        modal.hide();
+        
+        // Reset form and remove edit row reference
+        $("#announcementForm")[0].reset();
+        $("#addAnnouncementModal").removeData("editRow");
+        
+        // Reset button text
+        $("#saveDraftBtn").text("Save as Draft");
+        $("#publishBtn").text("Publish");
+        
+        // Clear TinyMCE if it exists
+        if (typeof tinymce !== 'undefined' && tinymce.get('announcementContent')) {
+            tinymce.get('announcementContent').setContent('');
+        }
+        
+        // Show success message
+        showNotification("Announcement updated successfully!", "success");
+    }
+    
+    // Function to show notifications
+    function showNotification(message, type) {
+        $("#notificationToast .toast-body").text(message);
+        
+        // Remove all background classes first
+        $("#notificationToast").removeClass("bg-success bg-info bg-warning bg-danger");
+        
+        // Add appropriate class based on type
+        switch(type) {
+            case 'success':
+                $("#notificationToast").addClass('bg-success text-white');
+                break;
+            case 'info':
+                $("#notificationToast").addClass('bg-info text-white');
+                break;
+            case 'warning':
+                $("#notificationToast").addClass('bg-warning text-dark');
+                break;
+            case 'danger':
+                $("#notificationToast").addClass('bg-danger text-white');
+                break;
+            default:
+                $("#notificationToast").addClass('bg-info text-white');
+        }
+
+        // Show toast
+        const toastEl = document.getElementById('notificationToast');
+        const toast = new bootstrap.Toast(toastEl, {
+            delay: 3000
+        });
+        toast.show();
+    }
+    
+    // Initialize analytics chart if canvas and Chart.js are available
+    if (typeof Chart !== 'undefined' && document.getElementById('announcementAnalyticsChart')) {
+        const ctx = document.getElementById('announcementAnalyticsChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['General', 'Academic', 'Events', 'Career', 'Campus', 'Emergency'],
+                datasets: [{
+                    label: 'Active Announcements',
+                    data: [14, 9, 21, 6, 8, 3],
+                    backgroundColor: 'rgba(13, 110, 253, 0.5)',
+                    borderColor: 'rgba(13, 110, 253, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+});
+
+$(document).ready(function() {
+    // Previous code remains the same...
+    
+    // Add Category functionality
+    $("#addCategoryModal .btn-primary").click(function() {
+        // Get category form values
+        const categoryName = $("#addCategoryModal input[type='text']").val();
+        const categoryDescription = $("#addCategoryModal textarea").val();
+        const categoryIcon = $("#addCategoryModal input[type='text'][value='fa-bullhorn']").val();
+        const categoryColor = $("#addCategoryModal input[type='color']").val();
+        const isActive = $("#activeCategory").is(':checked');
+        
+        // Validate required field
+        if (!categoryName) {
+            alert("Category name is required");
+            return;
+        }
+        
+        // Create new category item
+        const newCategory = `
+            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                ${categoryName}
+                <span class="badge bg-light text-primary rounded-pill">0</span>
+            </a>
+        `;
+        
+        // Add new category to the list
+        $(".list-group.list-group-flush").append(newCategory);
+        
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addCategoryModal'));
+        modal.hide();
+        
+        // Reset form
+        $("#addCategoryModal input[type='text']").val('');
+        $("#addCategoryModal textarea").val('');
+        $("#addCategoryModal input[type='text'][value='fa-bullhorn']").val('fa-bullhorn');
+        $("#addCategoryModal input[type='color']").val('#0d6efd');
+        $("#activeCategory").prop('checked', true);
+        
+        // Show success notification
+        showNotification("Category added successfully!", "success");
+        
+        // Add click handler to new category
+        $(".list-group-item").last().click(function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all items
+            $(".list-group-item").removeClass("active");
+            
+            // Add active class to clicked item
+            $(this).addClass("active");
+            
+            // Update the announcement list title
+            $(".card-header h5:contains('General Announcements')").text($(this).text().trim().split(/\s+/)[0] + " Announcements");
+            
+            // For a real application, you would load announcements for this category here
+            // For demo purposes, we'll just show a loading message
+            showNotification("Loading " + $(this).text().trim() + " announcements...", "info");
+        });
+    });
+    
+    // Add click handler to existing categories
+    $(".list-group-item").click(function(e) {
+        e.preventDefault();
+        
+        // Remove active class from all items
+        $(".list-group-item").removeClass("active");
+        
+        // Add active class to clicked item
+        $(this).addClass("active");
+        
+        // Update the announcement list title
+        const categoryName = $(this).text().trim().split(/\s+/)[0];
+        $(".col-lg-8 .card-header h5").text(categoryName + " Announcements");
+        
+        // For a real application, you would load announcements for this category here
+        // For demo purposes, we'll just show a loading message
+        showNotification("Loading " + categoryName + " announcements...", "info");
+    });
+    
+    // Category search functionality
+    $(".card-footer .form-control").on("keyup", function() {
+        const searchTerm = $(this).val().toLowerCase();
+        
+        // Filter categories based on search term
+        $(".list-group-item").each(function() {
+            const categoryText = $(this).text().toLowerCase();
+            if (categoryText.includes(searchTerm)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+    
+    // Function to create a confirmation dialog for sensitive actions
+    function confirmAction(message, callback) {
+        if (confirm(message)) {
+            callback();
+        }
+    }
+    
+    // Add context menu for categories (right-click functionality)
+    $(".list-group-item").on("contextmenu", function(e) {
+        e.preventDefault();
+        
+        const categoryItem = $(this);
+        const categoryName = categoryItem.text().trim().split(/\s+/)[0];
+        
+        // Create context menu
+        const contextMenu = `
+            <div class="dropdown-menu show context-menu" style="position: absolute; left: ${e.pageX}px; top: ${e.pageY}px;">
+                <a class="dropdown-item" href="#" data-action="edit"><i class="fas fa-edit me-2"></i>Edit</a>
+                <a class="dropdown-item" href="#" data-action="delete"><i class="fas fa-trash me-2"></i>Delete</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-action="export"><i class="fas fa-file-export me-2"></i>Export</a>
+            </div>
+        `;
+        
+        // Remove any existing context menus
+        $(".context-menu").remove();
+        
+        // Add new context menu
+        $("body").append(contextMenu);
+        
+        // Handle context menu item clicks
+        $(".context-menu .dropdown-item").click(function() {
+            const action = $(this).data("action");
+            
+            switch(action) {
+                case "edit":
+                    // Open edit category modal (would need to create this)
+                    showNotification("Edit " + categoryName + " category", "info");
+                    break;
+                case "delete":
+                    confirmAction("Are you sure you want to delete the " + categoryName + " category?", function() {
+                        categoryItem.fadeOut(400, function() {
+                            categoryItem.remove();
+                            showNotification(categoryName + " category deleted", "success");
+                        });
+                    });
+                    break;
+                case "export":
+                    showNotification("Exporting " + categoryName + " category data...", "info");
+                    break;
+            }
+            
+            // Remove context menu
+            $(".context-menu").remove();
+        });
+        
+        // Remove context menu when clicking elsewhere
+        $(document).on("click", function() {
+            $(".context-menu").remove();
+        });
+    });
+    
+    // Function to show notifications (already defined in your existing code)
+    function showNotification(message, type) {
+        $("#notificationToast .toast-body").text(message);
+        
+        // Remove all background classes first
+        $("#notificationToast").removeClass("bg-success bg-info bg-warning bg-danger");
+        
+        // Add appropriate class based on type
+        switch(type) {
+            case 'success':
+                $("#notificationToast").addClass('bg-success text-white');
+                break;
+            case 'info':
+                $("#notificationToast").addClass('bg-info text-white');
+                break;
+            case 'warning':
+                $("#notificationToast").addClass('bg-warning text-dark');
+                break;
+            case 'danger':
+                $("#notificationToast").addClass('bg-danger text-white');
+                break;
+            default:
+                $("#notificationToast").addClass('bg-info text-white');
+        }
+
+        // Show toast
+        const toastEl = document.getElementById('notificationToast');
+        const toast = new bootstrap.Toast(toastEl, {
+            delay: 3000
+        });
+        toast.show();
+    }
+});
+</script>
+@endsection

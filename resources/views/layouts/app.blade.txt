@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>@yield('title', config('app.name', 'Laravel'))</title>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Scripts -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --topbar-height: 56px;
+            --primary-color: #3490dc;
+            --secondary-color: #6c757d;
+            --success-color: #38c172;
+            --warning-color: #ffed4a;
+            --danger-color: #e3342f;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+        
+        body {
+            overflow-x: hidden;
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        #wrapper {
+            display: flex;
+        }
+        
+        #sidebar-wrapper {
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            margin-left: -var(--sidebar-width);
+            transition: margin .25s ease-out;
+            background-color: var(--dark-color);
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+            z-index: 1000;
+        }
+        
+        #sidebar-wrapper .sidebar-heading {
+            padding: 0.875rem 1.25rem;
+            font-size: 1.2rem;
+            background-color: var(--primary-color);
+            color: white;
+            height: var(--topbar-height);
+            display: flex;
+            align-items: center;
+        }
+        
+        #sidebar-wrapper .list-group {
+            width: var(--sidebar-width);
+        }
+        
+        #sidebar-wrapper .list-group-item {
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+            border-color: rgba(255,255,255,0.1);
+            background-color: transparent;
+            color: rgba(255,255,255,0.7);
+            padding: 0.75rem 1.25rem;
+        }
+        
+        #sidebar-wrapper .list-group-item:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.9);
+        }
+        
+        #sidebar-wrapper .list-group-item.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        #page-content-wrapper {
+            width: 100%;
+            min-width: 100vw;
+        }
+        
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+        
+        .navbar {
+            padding: 0.5rem 1rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+            background-color: white;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+        }
+        
+        #menu-toggle {
+            cursor: pointer;
+        }
+        
+        .badge-counter {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+            transform: translate(50%, -50%);
+            border-radius: 50%;
+            font-size: 0.6rem;
+            padding: 0.2rem 0.4rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            color: rgba(255,255,255,0.7);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .user-info .user-role {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        .sidebar-section {
+            padding: 0.75rem 1.25rem;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+        }
+        
+        @media (min-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: 0;
+            }
+            
+            #page-content-wrapper {
+                min-width: 0;
+                width: 100%;
+            }
+            
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: -var(--sidebar-width);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper" class="toggled d-md-flex">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <div class="sidebar-heading">
+                {{ config('app.name', 'Laravel') }}
+            </div>
+            <div class="user-info">
+                @if(Auth::check())
+                    @if(Auth::user()->profile_photo)
+                        <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile Photo">
+                    @else
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        </div>
+                    @endif
+                    <div class="ms-2">
+                        <div>{{ Auth::user()->name }}</div>
+                        <div class="user-role">{{ ucfirst(Auth::user()->user_type) }}</div>
+                    </div>
+                @endif
+            </div>
+            
+            <div class="sidebar-section">Main</div>
+            <div class="list-group list-group-flush">
+                <a href="{{ route('student.dashboard') }}" class="list-group-item list-group-item-action {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
+                    <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                </a>
+                <a href="{{ route('profile.faculty') }}" class="list-group-item list-group-item-action {{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                    <i class="fas fa-user me-2"></i> Profile
+                </a>
+            </div>
+            
+            <div class="sidebar-section">Academic</div>
+            <div class="list-group list-group-flush">
+                {{-- <a href="{{ route('student.courses') }}" class="list-group-item list-group-item-action {{ request()->routeIs('student.courses*') ? 'active' : '' }}">
+                    <i class="fas fa-graduation-cap me-2"></i> Courses
+                </a>
+                <a href="{{ route('student.assignments') }}" class="list-group-item list-group-item-action {{ request()->routeIs('student.assignments*') ? 'active' : '' }}">
+                    <i class="fas fa-tasks me-2"></i> Assignments
+                </a>
+                <a href="{{ route('student.announcements') }}" class="list-group-item list-group-item-action position-relative {{ request()->routeIs('student.announcements*') ? 'active' : '' }}"> --}}
+                    <i class="fas fa-bullhorn me-2"></i> Announcements
+                    @if(isset($unreadAnnouncementsCount) && $unreadAnnouncementsCount > 0)
+                        <span class="badge bg-danger badge-counter">{{ $unreadAnnouncementsCount }}</span>
+                    @endif
+                </a>
+            </div>
+            
+            <div class="mt-auto">
+                <div class="list-group list-group-flush">
+                    <a href="{{ route('logout') }}" class="list-group-item list-group-item-action"
+                       onclick="event.preventDefault(); document.getElementById('sidebar-logout-form').submit();">
+                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                    </a>
+                    <form id="sidebar-logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <!-- Top Navbar -->
+            <nav class="navbar navbar-expand-md navbar-light">
+                <div class="container-fluid">
+                    <button class="btn" id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <div class="ms-2">
+                        @yield('page_title', '<h4 class="mb-0">'.config('app.name', 'Laravel').'</h4>')
+                    </div>
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <!-- Left Side Of Navbar -->
+                        <ul class="navbar-nav me-auto">
+                            
+                        </ul>
+
+                        <!-- Right Side Of Navbar -->
+                        <ul class="navbar-nav ms-auto">
+                            <!-- Notifications Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a id="notificationsDropdown" class="nav-link dropdown-toggle position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-bell"></i>
+                                    @if(isset($unreadNotificationsCount) && $unreadNotificationsCount > 0)
+                                        <span class="badge bg-danger badge-counter">{{ $unreadNotificationsCount }}</span>
+                                    @endif
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown">
+                                    <h6 class="dropdown-header">Notifications</h6>
+                                    <!-- Notifications will be displayed here -->
+                                    @if(isset($recentNotifications) && count($recentNotifications) > 0)
+                                        @foreach($recentNotifications as $notification)
+                                            <a class="dropdown-item" href="#">
+                                                <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                                <p class="mb-0">{{ $notification->message }}</p>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                        @endforeach
+                                    @else
+                                        <span class="dropdown-item">No new notifications</span>
+                                    @endif
+                                    <a class="dropdown-item text-center small text-gray-500" href="#">Show All Notifications</a>
+                                </div>
+                            </li>
+                            
+                            <!-- User Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    @if(Auth::check())
+                                        {{ Auth::user()->name }}
+                                    @endif
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    @if(Auth::check())
+                                        <span class="dropdown-item">
+                                            Logged in as: <strong>{{ ucfirst(Auth::user()->user_type) }}</strong>
+                                        </span>
+                                        <div class="dropdown-divider"></div>
+                                    @endif
+                                    <a class="dropdown-item" href="{{ route('profile.faculty') }}">
+                                        {{ __('Profile') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Main Content -->
+            <div class="container-fluid py-4">
+                @yield('content')
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle sidebar
+            document.getElementById('menu-toggle').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('wrapper').classList.toggle('toggled');
+            });
+            
+            // Close sidebar on mobile when clicking a link
+            const sidebarLinks = document.querySelectorAll('#sidebar-wrapper .list-group-item');
+            const handleLinkClick = function() {
+                if (window.innerWidth < 768) {
+                    document.getElementById('wrapper').classList.add('toggled');
+                }
+            };
+            
+            sidebarLinks.forEach(function(link) {
+                link.addEventListener('click', handleLinkClick);
+            });
+        });
+    </script>
+    
+    @yield('scripts')
+</body>
+</html>
