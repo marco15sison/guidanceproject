@@ -403,7 +403,7 @@
             <div class="login-body">
                 <div class="login-helper">
                     <i class="fas fa-info-circle"></i>
-                    Email: SNCA (admin), FAC-SC (faculty), 22-SC-0000 (student)
+                    Email: FAC-SC-0000 (faculty), 22-SC-0000 (student)
                 </div>
                 
                 @if(session('status'))
